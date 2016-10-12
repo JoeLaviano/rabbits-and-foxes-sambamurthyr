@@ -62,9 +62,7 @@
 # R_{n+1} & = R_n + \Delta t \left(k_1 R_n - k_2 R_n F_n \right) \\
 # F_{n+1} & = F_n + \Delta t \left( k_3 R_n F_n - k_4 F_n \right).
 # \end{align}
-# 
 
-# In[1]:
 
 get_ipython().magic('matplotlib inline')
 import numpy as np
@@ -73,7 +71,6 @@ from matplotlib import pyplot as plt
 
 # Here is one way to do it. Not necessarily the best, but it'll work:
 
-# In[2]:
 
 k1 = 0.015
 k2 = 0.00004
@@ -94,8 +91,6 @@ for n in range(len(times)-1):
 
 # Now let's plot the results.
 
-# In[3]:
-
 plt.plot(times, rabbits, label='rabbits')
 plt.plot(times, foxes, label='foxes')
 plt.legend(loc="best") # put the legend at the best location to avoid overlapping things
@@ -104,7 +99,6 @@ plt.show()
 
 # Now let's copy and paste the code above, and turn it into a function so we can evaluate it with many different step sizes. In order to compare the different results we need to pick some quantity of interest. We'll choose the maximum number of foxes, because it's simple to find and presumably interesting, although if you care more about the time at which the maximum occurs, or the number of rabbits, or something else, then use that instead.
 
-# In[4]:
 
 k1 = 0.015
 k2 = 0.00004
@@ -142,7 +136,6 @@ for i in range(20):
 
 # Let's plot on a semi-logarithmic plot (log scale on the x axis) and see what it looks like.
 
-# In[5]:
 
 plt.semilogx(step_sizes, maximums, 'kd-')
 plt.ylabel("Maximum number of foxes in 600 days")
@@ -152,13 +145,9 @@ plt.show()
 
 # Smaller step sizes give more accurate results, and we see it converges towards the "true" solution as we go left on the graph. Let's assume the smallest we tried is in fact "true", and calculate the errors relative to this. Then plot those against step size on a log-log plot. The slope should give us the order of convergence of the method.
 
-# In[6]:
-
 maximums = np.array(maximums)
 errors = maximums - maximums[-1] # calculate error relative to the last value
 
-
-# In[7]:
 
 # plot all but the last point, because log(0.0) will cause problems scaling the axes
 plt.loglog(step_sizes[:-1], errors[:-1], 'ko-')
@@ -173,8 +162,3 @@ plt.show()
 # The straight line slope of 1 shows that Simple Euler is a first order algorithm. 
 # We only get below an error of $10^0$ (1.0) in this quantity of interest with the second smallest step size, $\sim$0.002.
 # The Euler method is not very good - it requires tiny steps and converges slowly. You might have heard of (and might like to try) some [Ruge-Kutta](https://en.wikipedia.org/wiki/Runge–Kutta_methods) methods. If you do, first set up the right hand side of the ODE as a function, because you'll need to call it repeatedly within a single iteration.
-
-# In[ ]:
-
-
-
